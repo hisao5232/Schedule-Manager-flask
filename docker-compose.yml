@@ -1,0 +1,44 @@
+services:
+  flask-todo:
+    build: .
+    container_name: flask-todo-service
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=db-flask
+      - TODO_ADMIN_USER=${TODO_ADMIN_USER}
+      - TODO_ADMIN_PASS=${TODO_ADMIN_PASS}
+      - SECRET_KEY=${FLASK_SECRET_KEY}
+    depends_on:
+      - db-flask
+    networks:
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flask.rule=Host(`todo-flask.${DOMAIN}`)"
+      - "traefik.http.routers.flask.entrypoints=websecure"
+      - "traefik.http.routers.flask.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.flask.loadbalancer.server.port=5000"
+    restart: always
+
+  db-flask:
+    image: mysql:8.0
+    container_name: db-flask
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} # ハイフン形式に変更
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - mysql_todo_data:/var/lib/mysql
+    networks:
+      - traefik-public
+      
+networks:
+  traefik-public:
+    external: true
+
+volumes:
+  mysql_todo_data:

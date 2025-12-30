@@ -1,0 +1,183 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #ffffff;
+    --text-muted: #b0b0b0;
+    --accent-color: #00adb5;
+    --border-color: #444;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color); /* これで全体の基本色が白くなります */
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px 20px;
+}
+
+h1 {
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.add-form {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+}
+
+/* --- 入力欄の文字も白く固定 --- */
+input, textarea, .form-control {
+    background: #2c2c2c;
+    border: 1px solid var(--border-color);
+    color: #ffffff !important; /* 入力中の文字を真っ白に強制 */
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+button:hover { opacity: 0.8; }
+
+.todo-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* --- カード内のタイトル --- */
+.title-input { 
+    font-weight: 600; 
+    font-size: 1.1rem; 
+    background: transparent; 
+    border: none; 
+    color: #ffffff; /* タイトルを真っ白に */
+    border-bottom: 1px solid transparent; 
+}
+
+.title-input:focus { border-bottom: 1px solid var(--accent-color); outline: none; }
+
+/* --- カード内の説明文 --- */
+.desc-input { 
+    background: transparent; 
+    border: none; 
+    font-size: 0.9rem; 
+    color: var(--text-muted); /* 少しだけ落とした白（読みやすさのため） */
+    resize: none; 
+}
+
+.card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+
+/* --- 日付入力 --- */
+.date-input { 
+    width: auto; 
+    background: transparent; 
+    font-size: 0.8rem; 
+    border: none; 
+    color: #00adb5; /* アクセントカラーを維持、または #ffffff で真っ白に */
+}
+
+.delete-btn { position: absolute; top: 10px; right: 15px; color: #ff4d4d; text-decoration: none; font-size: 24px; }
+
+footer { text-align: center; margin-top: 50px; color: #555; font-size: 0.8rem; }
+
+/* --- レスポンシブ・スマホ向けの追加設定 --- */
+
+.todo-card {
+    transition: transform 0.2s;
+    position: relative;
+}
+
+/* 削除ボタンを押しやすく */
+.delete-btn {
+    font-size: 1.5rem;
+    padding: 5px 12px;
+    text-decoration: none;
+    color: #ff6b6b;
+}
+
+/* 入力項目の色のカスタマイズ */
+.form-control {
+    background-color: #2c2c2c;
+    color: white;
+    border: 1px solid #444;
+}
+
+.form-control:focus {
+    background-color: #333;
+    color: white;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* --- 完了済みタスク（あえて暗くする） --- */
+.opacity-50 {
+    opacity: 0.4; /* 透明度を少し下げて、終わった感を出す */
+}
+
+/* プレースホルダー（Task Title...などのヒント文字）を明るいグレーにする */
+.form-control::placeholder {
+    color: #b0b0b0 !important; /* 明るめのグレー */
+    opacity: 1; /* ブラウザによる透明度の自動調整を無効化 */
+}
+
+/* Internet ExplorerやEdgeの古いバージョンのための予備設定 */
+.form-control:-ms-input-placeholder {
+    color: #b0b0b0 !important;
+}
+
+/* Firefoxのための予備設定 */
+.form-control::-ms-input-placeholder {
+    color: #b0b0b0 !important;
+}
+
+/* ボタンの基本スタイルに滑らかな動きを追加 */
+button, .btn, .delete-btn {
+    transition: transform 0.1s ease-out, opacity 0.2s;
+    user-select: none; /* テキスト選択を防いで誤爆を防ぐ */
+}
+
+/* 削除ボタンも押しやすく（マウスオーバーで少し光る） */
+.delete-btn:hover {
+    color: #ff8787 !important;
+    transform: scale(1.1);
+}
+
+/* ログイン画面のタイトルを白くする */
+.card h1.h3.fw-bold {
+    color: #ffffff !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* わずかに光らせて視認性アップ */
+}
+
+/* ついでにその下の「Schedule Manager」という小文字も少し明るくする場合 */
+.card .text-secondary {
+    color: #b0b0b0 !important;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dark-mode bg-dark text-white">
+    <div class="container py-4">
+        <header class="text-center mb-5">
+            <h1 class="display-5 fw-bold">Schedule Manager</h1>
+        </header>
+        
+        <main>
+            <div class="card bg-secondary bg-opacity-10 border-secondary mb-5">
+                <div class="card-body">
+                    <form action="/add" method="POST" class="row g-3">
+                        <div class="col-12">
+                            <input type="text" name="title" class="form-control form-control-lg" placeholder="Task Title..." required>
+                        </div>
+                        <div class="col-12">
+                            <textarea name="description" class="form-control" placeholder="Details..." rows="2"></textarea>
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <input type="date" name="due_date" class="form-control">
+                        </div>
+                        <div class="col-md-4 col-12 d-grid">
+                            <button type="submit" class="btn btn-primary fw-bold">Add Task</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="todo-list row">
+                {% for todo in todos %}
+                <div class="col-12 mb-3">
+                    <div class="todo-card card bg-dark border-secondary h-100 {{ 'opacity-50' if todo.is_completed }}">
+                        <div class="card-body">
+                            <a href="/delete/{{ todo.id }}" class="delete-btn position-absolute top-0 end-0" onclick="return confirm('Are you sure?')">&times;</a>
+                            
+                            <form action="/update/{{ todo.id }}" method="POST">
+                                <div class="d-flex align-items-center mb-2 mt-2">
+                                    <input type="checkbox" name="is_completed" class="form-check-input me-3" 
+                                           style="width: 25px; height: 25px;"
+                                           onchange="this.form.submit()" {{ 'checked' if todo.is_completed }}>
+                                    <input type="text" name="title" value="{{ todo.title }}" 
+                                           class="form-control border-0 bg-transparent fw-bold fs-5 p-0 {% if todo.is_completed %}text-decoration-line-through{% endif %}">
+                                </div>
+                                
+                                <textarea name="description" class="form-control border-0 bg-transparent text-secondary p-0 mb-3" rows="2">{{ todo.description }}</textarea>
+                                
+                                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                    <input type="date" name="due_date" value="{{ todo.due_date.strftime('%Y-%m-%d') if todo.due_date }}" 
+                                           class="form-control form-control-sm w-auto bg-transparent border-0 text-info">
+                                    <button type="submit" class="btn btn-sm btn-outline-light mt-2 mt-sm-0">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+
+        <footer class="text-center mt-5 pt-4 border-top border-secondary">
+            <p class="text-secondary small">go-pro-world.net since 2025</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
